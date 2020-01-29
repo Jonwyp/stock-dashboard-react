@@ -13,7 +13,12 @@ const NewsArticle = ({
         <h3>{headline}</h3>
       </a>
       <div>
-        Source: <em>{source}</em>, {datetime}
+        Source: <em>{source}</em>,{" "}
+        {new Intl.DateTimeFormat("en-GB", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        }).format(datetime)}
       </div>
       <div>
         <p>{summary}</p>

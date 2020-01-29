@@ -13,22 +13,24 @@ class WatchList extends React.Component {
 
   displayWatchList() {
     return this.state.stocks.map(stock => (
-      <div>
-        <ul>
-          <li>
-            <span>{stock.symbol}</span>
-            <span>{stock.name}</span>
-          </li>
-        </ul>
-      </div>
+      <tr>
+        <td>{stock.symbol}</td>
+        <td>{stock.name}</td>
+      </tr>
     ));
   }
 
   render() {
     return (
       <div>
-        <div>Watchlist</div>
-        <div>{this.displayWatchList()}</div>
+        <table>
+          <caption>Watchlist</caption>
+          <tr>
+            <td>Stock Symbol</td>
+            <td>Stock Name</td>
+          </tr>
+          {this.displayWatchList()}
+        </table>
       </div>
     );
   }

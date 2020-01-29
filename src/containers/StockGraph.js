@@ -1,9 +1,9 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, Redirect } from "react-router-dom";
 import LineGraph from "../components/LineGraph";
 import CandleStickGraph from "../components/CandleStickGraph";
 
-function StockGraph() {
+function StockGraph({chartData}) {
   return (
     <div>
       <header>
@@ -15,8 +15,9 @@ function StockGraph() {
         </Link>
       </header>
       <div>
-        <Route path="/candlestickgraph" component={CandleStickGraph} />
-        <Route path="/linegraph" component={LineGraph} />
+        <Redirect exact from="/" to="candlestickgraph" />
+        <Route path="/candlestickgraph" render={() => <CandleStickGraph chartData={chartData} />} />
+        <Route path="/linegraph" render={() => <LineGraph chartData={chartData} />} />
       </div>
     </div>
   );

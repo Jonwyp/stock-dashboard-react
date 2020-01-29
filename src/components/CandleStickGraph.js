@@ -1,12 +1,17 @@
 import React from "react";
 import Chart from "react-google-charts";
-import RandomData from "./RandomData";
 
-const reformatData = RandomData.map(obj => {
-  return [obj.label, obj.uLow, obj.uOpen, obj.uClose, obj.uHigh];
-});
-reformatData.unshift(["Date", "Low", "Open", "Close", "High"]);
-function CandleStickGraph() {
+function CandleStickGraph({ chartData }) {
+  const reformatData = chartData.map(points => {
+    return [
+      points.date,
+      points.uLow,
+      points.uOpen,
+      points.uClose,
+      points.uHigh
+    ];
+  });
+  reformatData.unshift(["Date", "Low", "Open", "Close", "High"]);
   return (
     <Chart
       width={"100%"}
@@ -18,8 +23,8 @@ function CandleStickGraph() {
         legend: "none",
         bar: { groupWidth: "100%" }, // Remove space between bars.
         candlestick: {
-          fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
-          risingColor: { strokeWidth: 0, fill: "#0f9d58" } // green
+          fallingColor: { strokeWidth: 0, fill: "#ff0000" }, // red
+          risingColor: { strokeWidth: 0, fill: "#008000" } // green
         }
       }}
       rootProps={{ "data-testid": "2" }}

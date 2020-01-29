@@ -1,29 +1,25 @@
 import React from "react";
 import Chart from "react-google-charts";
-import RandomData from "./RandomData";
 
-const reformatData = RandomData.map(obj => {
-  return [obj.label, obj.uClose];
-});
-reformatData.unshift(["Date", "Close"]);
-function LineGraph() {
+function LineGraph({ chartData }) {
+  const reformatData = chartData.map(points => {
+    return [points.date, points.uClose];
+  });
+  reformatData.unshift(["Date", "Close"]);
   return (
     <Chart
-  width={'600px'}
-  height={'400px'}
-  chartType="LineChart"
-  loader={<div>Loading Chart</div>}
-  data={reformatData}
-  options={{
-    hAxis: {
-      title: 'Date',
-    },
-    vAxis: {
-      title: 'Price',
-    },
-  }}
-  rootProps={{ 'data-testid': '1' }}
-/>
+      width={"100%"}
+      height={"400px"}
+      chartType="LineChart"
+      loader={<div>Loading Chart</div>}
+      data={reformatData}
+      options={{
+        hAxis: {},
+        vAxis: {},
+        legend: { position: "none" }
+      }}
+      rootProps={{ "data-testid": "1" }}
+    />
   );
 }
 

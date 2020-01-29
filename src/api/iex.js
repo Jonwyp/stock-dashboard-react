@@ -1,5 +1,5 @@
-import React from "react";
 import Axios from "axios";
+import timeout from "./timeout";
 
 const api = Axios.create({
   baseURL: "https://sandbox.iexapis.com/stable"
@@ -12,20 +12,27 @@ export const LoadStockQuote = symbol => {
     .then(result => result.data);
 };
 
-export const LoadStockLogo = symbol => {
-  return api
-    .get(`/stock/${symbol}/logo?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`)
-    .then(result => result.data.url);
+export const LoadStockInfo = async symbol => {
+  await timeout(1000);
+  return await api
+    .get(`/stock/${symbol}/company?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`)
+    .then(result => result.data);
 };
 
-export const LoadStockNews = symbol => {
-  return api
+export const LoadStockNews = async symbol => {
+  await timeout(1000);
+  return await api
     .get(
       `/stock/${symbol}/news/last/5?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`
     )
     .then(result => result.data);
 };
 
-export const LoadStockChart = (symbol, range) => {
-  return api.get(`/stock/${symbol}/chart/${range}`);
+export const LoadStockChart = async (symbol, range) => {
+  await timeout(1000);
+  return await api
+    .get(
+      `/stock/${symbol}/chart/${range}?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`
+    )
+    .then(result => result.data);
 };
