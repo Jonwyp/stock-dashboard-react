@@ -1,0 +1,11 @@
+.search {
+  background-color: grey;
+}
+
+.search * {
+  margin: 0 5px 0 5px;
+}
+
+.search-box {
+  width: 15em;
+}

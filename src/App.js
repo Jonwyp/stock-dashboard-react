@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import StockSearch from "./components/StockSearch";
+import WatchList from "./components/WatchList";
+import StockInfo from "./components/StockInfo";
+import StockDetailed from "./components/StockDetailed";
+import { BrowserRouter } from "react-router-dom";
+import StockGraph from "./containers/StockGraph";
+import NewsList from "./components/NewsList";
+import RandomNewsData from "./components/RandomNewsData";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <StockSearch />
+        <WatchList />
+        <StockInfo />
+        <StockDetailed />
+        <StockGraph />
+        <NewsList newsData={RandomNewsData} />
+      </div>
+    </BrowserRouter>
   );
 }
 
