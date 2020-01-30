@@ -48,7 +48,7 @@ class App extends React.Component {
       })
       .catch(error => {
         if (!!error.response.status) {
-          error = new Error(`An error occurred while processing your request.`);
+          error = new Error(`An error occurred while processing your request...`);
           this.setState({ error: error });
           alert(error.message);
         }
@@ -88,8 +88,9 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <div className="search">
-            <h1>U.S. Stocks Dashboard</h1>
+          <div className="header">
+            <img className="header-companylogo" src={`${process.env.PUBLIC_URL}/stockuote.png`} alt="Company logo"/>
+            <span className="search"><h1>U.S. Stocks Dashboard</h1>
             <input
               type="text"
               maxLength="5"
@@ -99,12 +100,12 @@ class App extends React.Component {
               onKeyDown={this.onEnterKey}
             />
             <button onClick={this.loadQuote}>Find Quote</button>
-          </div>
+          </span></div>
           <div>
             <div>
               {!!error && (
-                <div>
-                  <h4>Alert!</h4>
+                <div className="alertbox">
+                  <h3 className="alertbox-header">Alert!</h3>
                   <p>{error.message}</p>
                 </div>
               )}

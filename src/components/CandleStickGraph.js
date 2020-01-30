@@ -13,7 +13,7 @@ function CandleStickGraph({ chartData }) {
   });
   reformatData.unshift(["Date", "Low", "Open", "Close", "High"]);
   return (
-    <Chart
+    <div data-testid="candleStickChart"><Chart
       width={"100%"}
       height={350}
       chartType="CandlestickChart"
@@ -28,7 +28,7 @@ function CandleStickGraph({ chartData }) {
         }
       }}
       rootProps={{ "data-testid": "2" }}
-    />
+    /></div>
   );
 }
 

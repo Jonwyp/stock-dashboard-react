@@ -9,19 +9,13 @@ const StockDetailed = ({
   return (
     <div className="stockdetailed">
       <h2 className="stockdetailed-header">Detailed Stock Information</h2>
-      <ul>
-        <li>
-          <span style={{ fontWeight: "bold" }}>Description:</span>
-          <span>{description}</span>
-        </li>
-        <li>
-          <span style={{ fontWeight: "bold" }}>Industry:</span>
-          <span>{industry}</span>
-        </li>
-        <li>
-          <span style={{ fontWeight: "bold" }}>Sector:</span>
-          <span>{sector}</span>
-        </li>
+      <ul className="stockdetailed-list">
+        <li style={{ fontWeight: "bold" }}>Description:</li>
+        <li>{description}</li>
+        <li style={{ fontWeight: "bold" }}>Industry:</li>
+        <li>{industry}</li>
+        <li style={{ fontWeight: "bold" }}>Sector:</li>
+          <li>{sector}</li>
       </ul>
     </div>
   );

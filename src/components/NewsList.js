@@ -1,11 +1,11 @@
 import React from "react";
 import NewsArticle from "./NewsArticle";
-import "./NewsList.css"
+import "./NewsList.css";
 
 const NewsList = ({ newsData, enteredSymbol }) => {
   return (
     <div>
-      <h2 className="newslist-header">Top news for {enteredSymbol}</h2>
+      <h2 className="newslist-header">Top News for {enteredSymbol}</h2>
       {newsData.map((news, index) => {
         return (
           <div key={index}>

@@ -4,7 +4,7 @@ import "./StockInfo.css";
 const StockInfo = ({
   symbol = "AAPL",
   companyName = "Apple Inc.",
-  exchange = "NASDAQ",
+  primaryExchange = "NASDAQ",
   latestPrice = "308.95",
   latestSource = "Close",
   week52High = "323.33",
@@ -30,11 +30,11 @@ const StockInfo = ({
         <li className="stockinfo-body__details__items">
           <strong>{latestSource}{":"}</strong>{" "}
           <span className="text-primary">{latestPrice}</span>
-          <span className={changePercent > 0 ? "up" : "down"}>
+          {!!changePercent && <span className={changePercent > 0 ? "up" : "down"}>
             {changePercent > 0
               ? ` ${String.fromCharCode(9650)} (${(changePercent * 100).toFixed(2)}%)`
               : ` ${String.fromCharCode(9660)} (${(changePercent * 100).toFixed(2)}%)`}
-          </span>
+          </span>}
         </li>
         <li className="stockinfo-body__details__items">
           <strong>Week 52 High: </strong>{" "}
@@ -45,7 +45,7 @@ const StockInfo = ({
           <span className="text-danger">{week52Low}</span>
         </li>
         <li className="stockinfo-body__details__items">
-          <strong>Exchange: </strong> {exchange}
+          <strong>Exchange: </strong> {primaryExchange}
         </li>
       </ul>
       </div>

@@ -7,7 +7,7 @@ function LineGraph({ chartData }) {
   });
   reformatData.unshift(["Date", "Close"]);
   return (
-    <Chart
+    <div data-testid="lineChart"><Chart
       width={"100%"}
       height={"400px"}
       chartType="LineChart"
@@ -19,7 +19,7 @@ function LineGraph({ chartData }) {
         legend: { position: "none" }
       }}
       rootProps={{ "data-testid": "1" }}
-    />
+    /></div>
   );
 }
 

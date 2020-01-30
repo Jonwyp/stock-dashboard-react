@@ -3,3 +3,15 @@
   background-color: darkslategrey;
   color: white;  
 }
+
+.stockdetailed-list {
+  margin: 0;
+  padding: 0 20px;
+  text-align: justify;
+}
+
+.stockdetailed-list * {
+  padding: 0;
+  margin: 10px 0;
+  text-align: justify;
+}
