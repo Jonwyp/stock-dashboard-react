@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import WatchList from "./components/WatchList";
 import StockInfo from "./components/StockInfo";
 import StockDetailed from "./components/StockDetailed";
 import { BrowserRouter } from "react-router-dom";
@@ -17,9 +16,10 @@ class App extends React.Component {
   state = {
     error: null,
     enteredSymbol: "AAPL",
-    quote: null,
+    quote: { symbol: "AAPL" },
     news: [],
-    chart: []
+    chart: [],
+    showAllNews: false
   };
   componentDidMount() {
     this.loadQuote();
@@ -36,7 +36,7 @@ class App extends React.Component {
     ])
       .then(values => {
         const [quote, info, news, chart] = values;
-        this.setState(prevState => {
+        this.setState(() => {
           return {
             quote: quote,
             error: null,
@@ -47,8 +47,11 @@ class App extends React.Component {
         });
       })
       .catch(error => {
-        error = new Error(`An error occurred while processing your request.`);
-        this.setState({ error: error });
+        if (!!error.response.status) {
+          error = new Error(`An error occurred while processing your request.`);
+          this.setState({ error: error });
+          alert(error.message);
+        }
       });
   };
 
@@ -64,17 +67,32 @@ class App extends React.Component {
     }
   };
 
+  onShowAllNews = event => {
+    this.setState(prevState => {
+      const showAllNews = prevState.showAllNews;
+      return { showAllNews: !showAllNews };
+    });
+  };
+
   render() {
-    const { quote, enteredSymbol, info, news, chart } = this.state;
+    const {
+      quote,
+      info,
+      news,
+      chart,
+      showAllNews,
+      error
+    } = this.state;
+    const condensedNews = [...news].slice(0, 3);
 
     return (
       <BrowserRouter>
         <div className="App">
           <div className="search">
-            <h2>U.S. Stocks Dashboard</h2>
+            <h1>U.S. Stocks Dashboard</h1>
             <input
-              value={enteredSymbol}
               type="text"
+              maxLength="5"
               placeholder="Search Stock Ticker Here..."
               className="search-box"
               onChange={this.onChangeEnteredSymbol}
@@ -82,15 +100,41 @@ class App extends React.Component {
             />
             <button onClick={this.loadQuote}>Find Quote</button>
           </div>
-          <WatchList />
-          {!!quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}
-          {!!info ? (
+          <div>
+            <div>
+              {!!error && (
+                <div>
+                  <h4>Alert!</h4>
+                  <p>{error.message}</p>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="stockmeta">
+          <span className="stockmeta-span">{!!quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}</span>
+          <span className="stockmeta-span">{!!info ? (
             <StockDetailed {...info} />
           ) : (
             <p>Loading Detailed Information</p>
+          )}</span>
+          </div>
+          {!!chart ? (
+            <div>
+              <StockGraph chartData={chart} enteredSymbol={quote.symbol} />
+            </div>
+          ) : (
+            <p>Loading Chart...</p>
           )}
-          {!!chart ? <StockGraph chartData={chart} /> : <p>Loading Chart...</p>}
-          <NewsList newsData={news} />
+          <div className="newlist-wrap">
+          {!!news && !!showAllNews ? (
+            <NewsList newsData={news} enteredSymbol={quote.symbol} />
+          ) : (
+            <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
+          )}
+          <button onClick={this.onShowAllNews}>
+            {!!showAllNews ? "Show less news" : "Show more news"}
+          </button>
+          </div>
         </div>
       </BrowserRouter>
     );

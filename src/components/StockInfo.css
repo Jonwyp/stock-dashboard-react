@@ -5,3 +5,16 @@
 .down {
   color: red;
 }
+
+.stockinfo * {
+  margin: auto;
+  align-items: center;
+}
+
+.stockinfo-head {
+  
+}
+
+.stockinfo-body {
+
+}

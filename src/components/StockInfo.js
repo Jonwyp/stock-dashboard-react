@@ -13,40 +13,42 @@ const StockInfo = ({
 }) => {
   return (
     <div className="stockinfo">
-      <div className="stockinfo-body">
+      <div className="stockinfo-head">
         <img
-          className="stockinfo-body__logo"
+          className="stockinfo-head__logo"
           src={`https://storage.googleapis.com/iex/api/logos/${symbol}.png`}
           alt=""
         />
-        <h2 className="stockinfo-body__name">
+        <h2 className="stockinfo-head__name">
           <strong>
             {symbol} - {companyName}
           </strong>
         </h2>
-      </div>
+      </div >
+      <div className="stockinfo-body">
       <ul className="stockinfo-body__details">
         <li className="stockinfo-body__details__items">
-          <strong>{latestSource}</strong>{" "}
+          <strong>{latestSource}{":"}</strong>{" "}
           <span className="text-primary">{latestPrice}</span>
           <span className={changePercent > 0 ? "up" : "down"}>
             {changePercent > 0
-              ? ` ${String.fromCharCode(9650)} (${changePercent * 100}%)`
-              : ` ${String.fromCharCode(9660)} (${changePercent * 100}%)`}
+              ? ` ${String.fromCharCode(9650)} (${(changePercent * 100).toFixed(2)}%)`
+              : ` ${String.fromCharCode(9660)} (${(changePercent * 100).toFixed(2)}%)`}
           </span>
         </li>
         <li className="stockinfo-body__details__items">
-          <strong>Week 52 High</strong>{" "}
+          <strong>Week 52 High: </strong>{" "}
           <span className="text-success">{week52High}</span>
         </li>
         <li className="stockinfo-body__details__items">
-          <strong>Week 52 Low</strong>{" "}
+          <strong>Week 52 Low: </strong>{" "}
           <span className="text-danger">{week52Low}</span>
         </li>
         <li className="stockinfo-body__details__items">
-          <strong>Exchange</strong> {exchange}
+          <strong>Exchange: </strong> {exchange}
         </li>
       </ul>
+      </div>
     </div>
   );
 };
