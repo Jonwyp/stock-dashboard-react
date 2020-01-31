@@ -36,9 +36,9 @@ export const LoadStockNews = async symbol => {
 
 export const LoadStockChart = async (symbol, range) => {
   await timeout(1000);
-  return await proApi
+  return await testApi
     .get(
-      `/stock/${symbol}/chart/${range}?token=${pTokenCode}`
+      `/stock/${symbol}/chart/${range}?token=${sTokenCode}`
     )
     .then(result => result.data);
 };
