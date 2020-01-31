@@ -1,38 +1,44 @@
 import Axios from "axios";
 import timeout from "./timeout";
 
-const api = Axios.create({
+const testApi = Axios.create({
   baseURL: "https://sandbox.iexapis.com/stable"
-  //Tpk_b7cad06c724e45b9be0f7c9e43af6b96
 });
 
+const proApi = Axios.create({
+  baseURL: "https://cloud.iexapis.com/stable" 
+});
+
+const sTokenCode = process.env.REACT_APP_STOKEN
+const pTokenCode = process.env.REACT_APP_PTOKEN
+
 export const LoadStockQuote = symbol => {
-  return api
-    .get(`/stock/${symbol}/quote?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`)
+  return proApi
+    .get(`/stock/${symbol}/quote?token=${pTokenCode}`)
     .then(result => result.data);
 };
 
 export const LoadStockInfo = async symbol => {
   await timeout(1000);
-  return await api
-    .get(`/stock/${symbol}/company?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`)
+  return await proApi
+    .get(`/stock/${symbol}/company?token=${pTokenCode}`)
     .then(result => result.data);
 };
 
 export const LoadStockNews = async symbol => {
   await timeout(1000);
-  return await api
+  return await proApi
     .get(
-      `/stock/${symbol}/news/last/5?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`
+      `/stock/${symbol}/news/last/5?token=${pTokenCode}`
     )
     .then(result => result.data);
 };
 
 export const LoadStockChart = async (symbol, range) => {
   await timeout(1000);
-  return await api
+  return await proApi
     .get(
-      `/stock/${symbol}/chart/${range}?token=Tpk_b7cad06c724e45b9be0f7c9e43af6b96`
+      `/stock/${symbol}/chart/${range}?token=${pTokenCode}`
     )
     .then(result => result.data);
 };

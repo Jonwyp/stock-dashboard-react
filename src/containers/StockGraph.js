@@ -46,7 +46,9 @@ class StockGraph extends React.Component {
             path="/linegraph"
             render={() => <LineGraph chartData={filteredChartData} />}
           />
+          <div style={{margin: "10px 180px 10px 180px"}}>
           <RangeSlide sliderCallbackfn={this.sliderCallbackfn} />
+        </div>
         </div>
       </div>
     );

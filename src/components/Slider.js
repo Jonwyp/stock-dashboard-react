@@ -19,7 +19,7 @@ const marks = {
   10: month[thisMonth-1 < 0 ? thisMonth + 11 : thisMonth -1 ],
   11: month[thisMonth]
 };
-const style = { width: 400, margin: "auto" };
+const style = { width: "auto", margin: "auto" };
 
 class RangeSlide extends React.Component {
   state = {
