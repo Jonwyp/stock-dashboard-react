@@ -122,6 +122,8 @@ class App extends React.Component {
           {!!chart ? (
             <div>
               <StockGraph chartData={chart} enteredSymbol={quote.symbol} />
+              <div style={{margin: "30px 0 30px 0"}}><a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+              </div>
             </div>
           ) : (
             <p>Loading Chart...</p>

@@ -2,7 +2,9 @@
   text-align: center;
   background-color: white;
   color: black;
+  margin: 0 20px 0 20px;
 }
+
 
 .header * {
   margin: 0 5px 0 5px;
@@ -28,7 +30,7 @@ ul {
   background-image: url(./img/background.png);
   background-size: cover;
   color: white;
-  height: 100px;
+  height: 10em;
 }
 
 .alertbox {
@@ -46,7 +48,6 @@ ul {
 }
 
 .header-companylogo {
-  position: absolute;
   left: 10px;
   top: 10px;
   width: auto;
