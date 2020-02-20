@@ -29,7 +29,7 @@ describe("App", () => {
     const searchBar = getByPlaceholderText("Search Stock Ticker Here...");
     expect(searchBar).toBeInTheDocument();
   });
-  
+
   it("should render findquote button on intialisation", () => {
     const { getByText } = render(<App />);
 

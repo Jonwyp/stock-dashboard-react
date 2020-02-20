@@ -1,7 +1,7 @@
 import React from "react";
 import Chart from "react-google-charts";
 
-function LineGraph({ chartData }) {
+const LineGraph = ({ chartData }) => {
   const reformatData = chartData.map(points => {
     return [points.date, points.uClose];
   });

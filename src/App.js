@@ -5,12 +5,14 @@ import StockDetailed from "./components/StockDetailed";
 import { BrowserRouter } from "react-router-dom";
 import StockGraph from "./containers/StockGraph";
 import NewsList from "./components/NewsList";
+import StockForecastList from "./components/StockForecastList";
 import {
   LoadStockQuote,
   LoadStockInfo,
   LoadStockNews,
   LoadStockChart
 } from "./api/iex";
+import { LoadForecastData } from "./api/herokuBackend";
 
 class App extends React.Component {
   state = {
@@ -19,7 +21,9 @@ class App extends React.Component {
     quote: { symbol: "AAPL" },
     news: [],
     chart: [],
-    showAllNews: false
+    forecast: [],
+    showAllNews: false,
+    showAllForecast: false
   };
   componentDidMount() {
     this.loadQuote();
@@ -32,23 +36,27 @@ class App extends React.Component {
       LoadStockQuote(enteredSymbol),
       LoadStockInfo(enteredSymbol),
       LoadStockNews(enteredSymbol),
-      LoadStockChart(enteredSymbol, "1y")
+      LoadStockChart(enteredSymbol, "1y"),
+      LoadForecastData(enteredSymbol)
     ])
       .then(values => {
-        const [quote, info, news, chart] = values;
+        const [quote, info, news, chart, forecast] = values;
         this.setState(() => {
           return {
             quote: quote,
             error: null,
             info: info,
             news: news,
-            chart: chart
+            chart: chart,
+            forecast: forecast
           };
         });
       })
       .catch(error => {
         if (!!error.response.status) {
-          error = new Error(`An error occurred while processing your request...`);
+          error = new Error(
+            `An error occurred while processing your request...`
+          );
           this.setState({ error: error });
           alert(error.message);
         }
@@ -74,33 +82,49 @@ class App extends React.Component {
     });
   };
 
+  onShowAllForecast = event => {
+    this.setState(prevState => {
+      const showAllForecast = prevState.showAllForecast;
+      return { showAllForecast: !showAllForecast };
+    });
+  };
+
   render() {
     const {
       quote,
       info,
       news,
       chart,
+      forecast,
       showAllNews,
+      showAllForecast,
       error
     } = this.state;
     const condensedNews = [...news].slice(0, 3);
+    const condensedForecast = [...forecast].slice(0, 2);
 
     return (
       <BrowserRouter>
         <div className="App">
           <div className="header">
-            <img className="header-companylogo" src={`${process.env.PUBLIC_URL}/stockuote.png`} alt="Company logo"/>
-            <span className="search"><h1>U.S. Stocks Dashboard</h1>
-            <input
-              type="text"
-              maxLength="5"
-              placeholder="Search Stock Ticker Here..."
-              className="search-box"
-              onChange={this.onChangeEnteredSymbol}
-              onKeyDown={this.onEnterKey}
+            <img
+              className="header-companylogo"
+              src={`${process.env.PUBLIC_URL}/stockuote.png`}
+              alt="Company logo"
             />
-            <button onClick={this.loadQuote}>Find Quote</button>
-          </span></div>
+            <span className="search">
+              <h1>U.S. Stocks Dashboard</h1>
+              <input
+                type="text"
+                maxLength="5"
+                placeholder="Search Stock Ticker Here..."
+                className="search-box"
+                onChange={this.onChangeEnteredSymbol}
+                onKeyDown={this.onEnterKey}
+              />
+              <button onClick={this.loadQuote}>Find Quote</button>
+            </span>
+          </div>
           <div>
             <div>
               {!!error && (
@@ -112,31 +136,52 @@ class App extends React.Component {
             </div>
           </div>
           <div className="stockmeta">
-          <span className="stockmeta-span">{!!quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}</span>
-          <span className="stockmeta-span">{!!info ? (
-            <StockDetailed {...info} />
-          ) : (
-            <p>Loading Detailed Information</p>
-          )}</span>
+            <span className="stockmeta-span">
+              {!!quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}
+            </span>
+            <span className="stockmeta-span">
+              {!!info ? (
+                <StockDetailed {...info} />
+              ) : (
+                <p>Loading Detailed Information</p>
+              )}
+            </span>
+          </div>
+          <div className="forecast-wrap">
+            {!!forecast && !!showAllForecast ? (
+              <StockForecastList
+                forecastData={forecast}
+                enteredSymbol={quote.symbol}
+              />
+            ) : (
+              <StockForecastList
+                forecastData={condensedForecast}
+                enteredSymbol={quote.symbol}
+              />
+            )}
+            <button onClick={this.onShowAllForecast}>
+              {!!showAllForecast ? "Show less forecast" : "Show more forecast"}
+            </button>
           </div>
           {!!chart ? (
             <div>
               <StockGraph chartData={chart} enteredSymbol={quote.symbol} />
-              <div style={{margin: "30px 0 30px 0"}}><a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+              <div style={{ margin: "30px 0 30px 0" }}>
+                <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
               </div>
             </div>
           ) : (
             <p>Loading Chart...</p>
           )}
           <div className="newlist-wrap">
-          {!!news && !!showAllNews ? (
-            <NewsList newsData={news} enteredSymbol={quote.symbol} />
-          ) : (
-            <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
-          )}
-          <button onClick={this.onShowAllNews}>
-            {!!showAllNews ? "Show less news" : "Show more news"}
-          </button>
+            {!!news && !!showAllNews ? (
+              <NewsList newsData={news} enteredSymbol={quote.symbol} />
+            ) : (
+              <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
+            )}
+            <button onClick={this.onShowAllNews}>
+              {!!showAllNews ? "Show less news" : "Show more news"}
+            </button>
           </div>
         </div>
       </BrowserRouter>
