@@ -13,6 +13,7 @@ import {
   LoadStockChart
 } from "./api/iex";
 import { LoadForecastData } from "./api/herokuBackend";
+import LoginScreen from "./containers/LoginScreen";
 
 class App extends React.Component {
   state = {

@@ -10,6 +10,25 @@ herokuBackend.defaults.withCredentials = true;
 export const LoadForecastData = async symbol => {
   await timeout(1000);
   const result = await herokuBackend.get(`/stocks/${symbol}/forecast`);
-  console.log(result.data);
+  return result.data;
+};
+
+export const PostLogin = async (username, password) => {
+  await timeout(100);
+  let payload = { username, password };
+  const result = await herokuBackend.post("/users/login", payload);
+  return result.data;
+};
+
+export const RegisterUser = async (
+  username,
+  password,
+  firstName,
+  lastName,
+  email
+) => {
+  await timeout(100);
+  let payload = { username, password, firstName, lastName, email };
+  const result = await herokuBackend.post("/users/register", payload);
   return result.data;
 };
