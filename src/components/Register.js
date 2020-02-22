@@ -1,5 +1,6 @@
 import React from "react";
-import RegisterUser from "../api/herokuBackend";
+import { herokuBackend } from "../api/herokuBackend";
+import Login from "./Login";
 
 class Register extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class Register extends React.Component {
     });
   };
 
-  onChangeLasttName = event => {
+  onChangeLastName = event => {
     this.setState({
       lastName: event.target.value
     });
@@ -42,10 +43,33 @@ class Register extends React.Component {
     });
   };
 
+  RegisterUser = async event => {
+    let payload = {
+      username: this.state.username,
+      password: this.state.password,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      email: this.state.email
+    };
+    const res = await herokuBackend.post("/users/register", payload);
+    if (res.data.code === 200) {
+      let loginScreen = [];
+      loginScreen.push(<Login parentProps={this} />);
+      let loginMessage = "Not Registered yet. Go to registration";
+      this.props.parentContext.setState({
+        loginScreen: loginScreen,
+        loginMessage: loginMessage,
+        buttonLabel: "Register",
+        isLogin: true
+      });
+      console.log(res.data);
+    }
+  };
+
   render() {
     return (
       <div>
-        <h1>New User Registration</h1>
+        <h2>New User Registration</h2>
         <div>
           <span>
             username:{" "}
@@ -61,7 +85,7 @@ class Register extends React.Component {
             <input
               type="text"
               placeholder="password"
-              onnChange={this.onChangePassword}
+              onChange={this.onChangePassword}
             />
           </span>
           <br />
@@ -92,17 +116,7 @@ class Register extends React.Component {
             />
           </span>
           <br />
-          <button
-            onClick={RegisterUser(
-              this.state.username,
-              this.state.password,
-              this.state.firstName,
-              this.state.lastName,
-              this.state.email
-            )}
-          >
-            Register
-          </button>
+          <button onClick={event => this.RegisterUser(event)}>Register</button>
         </div>
       </div>
     );

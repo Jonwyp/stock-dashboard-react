@@ -1,6 +1,7 @@
 import React from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import "./LoginScreen.css";
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -44,6 +45,16 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <div className="loginScreen">
+        <div className="header">
+          <img
+            className="header-companylogo"
+            src={`${process.env.PUBLIC_URL}/stockuote.png`}
+            alt="Company logo"
+          />
+          <span className="search">
+            <h1>U.S. Stocks Dashboard</h1>
+          </span>
+        </div>
         {this.state.loginScreen}
         <div>{this.state.loginMessage}</div>
         <div>

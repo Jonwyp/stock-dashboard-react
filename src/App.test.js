@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, getByTestId } from "@testing-library/react";
-import App from "./App";
+import App from "./containers/Dashboard";
 
 describe("App", () => {
   it("should render candlestick chart when candlestick chart link is clicked", () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { PostLogin } from "../api/herokuBackend";
+import { herokuBackend } from "../api/herokuBackend";
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,10 +21,22 @@ class Login extends React.Component {
     });
   };
 
+  PostLogin = async event => {
+    let payload = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    const res = await herokuBackend.post("/users/login", payload);
+    if (res.status === 200) {
+      this.props.appProps.setState({ isLoggedIn: true });
+    }
+    console.log(res.data);
+  };
+
   render() {
     return (
       <div>
-        <h1>Stockuote Dashboard Login</h1>
+        <h2>Dashboard Login</h2>
         <div>
           <span>
             username:{" "}
@@ -44,9 +56,7 @@ class Login extends React.Component {
             />
           </span>
           <br />
-          <button onClick={PostLogin(this.state.username, this.state.password)}>
-            Login
-          </button>
+          <button onClick={event => this.PostLogin(event)}>Login</button>
         </div>
       </div>
     );
