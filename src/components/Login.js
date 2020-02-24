@@ -50,7 +50,7 @@ class Login extends React.Component {
           <span>
             password:{" "}
             <input
-              type="text"
+              type="password"
               placeholder="password"
               onChange={this.onChangePassword}
             />
