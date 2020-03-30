@@ -26,7 +26,7 @@ An app that allows users to search for U.S listed stocks and find detailed infor
 
 To run this project, git clone and install it locally using npm:
 
-```js
+```bash
 $ cd ../
 $ git clone https://github.com/Jonwyp/stock-dashboard-react.git
 $ npm install
@@ -53,6 +53,7 @@ npm run cy:open // run cypress test in electron browser
 ```
 
 ## Features Demo
+
 Working live demo can be accessed at https://jonstockdashboard.netlify.com/
 
 <em>**Login to dashboard:**</em>
