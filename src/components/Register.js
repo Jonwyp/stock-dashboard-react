@@ -43,7 +43,7 @@ class Register extends React.Component {
     });
   };
 
-  RegisterUser = async event => {
+  RegisterUser = async () => {
     let payload = {
       username: this.state.username,
       password: this.state.password,
@@ -52,6 +52,9 @@ class Register extends React.Component {
       email: this.state.email
     };
     const res = await herokuBackend.post("/users/register", payload);
+    if (res.data.code === 400) {
+      alert()
+    }
     if (res.data.code === 200) {
       let loginScreen = [];
       loginScreen.push(<Login parentProps={this} />);
@@ -62,7 +65,7 @@ class Register extends React.Component {
         buttonLabel: "Register",
         isLogin: true
       });
-      console.log(res.data);
+      return res.data;
     }
   };
 

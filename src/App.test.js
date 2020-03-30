@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, getByTestId } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import App from "./containers/Dashboard";
 
 describe("App", () => {

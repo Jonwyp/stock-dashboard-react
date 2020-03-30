@@ -11,18 +11,23 @@ class LoginScreen extends React.Component {
       password: "",
       buttonLabel: "Register",
       loginScreen: [
-        <Login parentProps={this} appProps={this.props.parentProps} />
+        <Login
+          key="Login"
+          parentProps={this}
+          appProps={this.props.parentProps}
+        />
       ],
       loginMessage: "Not a registered user? Register now!",
       isLogin: true
     };
   }
-  onClickGoRegister = event => {
+
+  onClickGoRegister = () => {
     if (this.state.isLogin) {
       let loginMessage = "";
       let loginScreen = [];
       loginScreen.push(<Register parentProps={this} />);
-      loginMessage = "Already registered. Proceed to login!";
+      loginMessage = "Already registered? Proceed to login!";
       this.setState({
         loginScreen: loginScreen,
         loginMessage: loginMessage,

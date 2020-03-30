@@ -24,8 +24,9 @@ class App extends React.Component {
         this.setState({ isLoggedIn: true });
       }
       this.setState({ isLoading: false });
-    } catch (error) {}
-    this.setState({ isLoading: false });
+    } catch (error) {
+      this.setState({ isLoading: false });
+    }
   };
 
   render() {

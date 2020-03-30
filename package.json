@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "coverage": "react-scripts test --coverage --watchAll=false",
-    "eject": "react-scripts eject"
+    "cy:run": "cypress run",
+    "cy:open": "cypress open --browser electron"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +36,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^4.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-react": "^7.18.3"
   }
 }
