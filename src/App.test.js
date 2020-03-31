@@ -23,11 +23,11 @@ describe("App", () => {
     expect(lineChart).toBeInTheDocument();
   });
 
-  it("should render search bar on intialisation", () => {
+  it("should render login page on intialisation", () => {
     const { getByPlaceholderText } = render(<App />);
 
-    const searchBar = getByPlaceholderText("Search Stock Ticker Here...");
-    expect(searchBar).toBeInTheDocument();
+    const searchBox = getByPlaceholderText("Search Stock Ticker Here...");
+    expect(searchBox).toBeInTheDocument();
   });
 
   it("should render findquote button on intialisation", () => {

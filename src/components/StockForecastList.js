@@ -12,7 +12,7 @@ class StockForecastList extends React.Component {
     return (
       <div>
         <h2 className="forecastlist-header">
-          Analysts' Forecast for {this.props.enteredSymbol}
+          Community Forecast for {this.props.enteredSymbol}
         </h2>
         <ForecastModal
           openModal={this.props.openModal}
@@ -24,7 +24,10 @@ class StockForecastList extends React.Component {
           return (
             <div key={index}>
               <hr />
-              <StockForecast {...forecast} />
+              <StockForecast
+                {...forecast}
+                latestPrice={this.props.quote.latestPrice}
+              />
             </div>
           );
         })}

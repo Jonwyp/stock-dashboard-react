@@ -1,5 +1,6 @@
 import React from "react";
 import { herokuBackend } from "../api/herokuBackend";
+import { Button } from "semantic-ui-react";
 
 class Login extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Login extends React.Component {
     });
   };
 
-  PostLogin = async event => {
+  PostLogin = async () => {
     let payload = {
       username: this.state.username,
       password: this.state.password
@@ -30,7 +31,7 @@ class Login extends React.Component {
     if (res.status === 200) {
       this.props.appProps.setState({ isLoggedIn: true });
     }
-    console.log(res.data);
+    return res.data;
   };
 
   render() {
@@ -56,7 +57,9 @@ class Login extends React.Component {
             />
           </span>
           <br />
-          <button onClick={event => this.PostLogin(event)}>Login</button>
+          <Button size="mini" onClick={event => this.PostLogin(event)}>
+            Login
+          </Button>
         </div>
       </div>
     );

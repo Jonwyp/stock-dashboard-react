@@ -4,18 +4,28 @@ const StockForecast = ({
   username,
   position,
   targetPrice,
-  percentageFromTarget,
+  latestPrice,
   timeFrame,
   title,
   rationale,
   createdAt
 }) => {
+  const percentageFromTargetPrice = (latestPrice - targetPrice) / targetPrice;
   return (
     <div className="stockForecast" data-testid="stockForecast">
       <h3>{title}</h3>
       <div>Position: {position}</div>
       <div>
         Price Target: {targetPrice} ({timeFrame})
+        <span className={percentageFromTargetPrice > 0 ? "up" : "down"}>
+          {percentageFromTargetPrice > 0
+            ? ` ${String.fromCharCode(9650)} (${(
+                percentageFromTargetPrice * 100
+              ).toFixed(2)}%)`
+            : ` ${String.fromCharCode(9660)} (${(
+                percentageFromTargetPrice * 100
+              ).toFixed(2)}%)`}
+        </span>
       </div>
       <div>{rationale}</div>
       <div className="user">By: {username}</div>

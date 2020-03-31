@@ -2,6 +2,7 @@ import React from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import "./LoginScreen.css";
+import { Button } from "semantic-ui-react";
 
 class LoginScreen extends React.Component {
   constructor(props) {
@@ -63,9 +64,9 @@ class LoginScreen extends React.Component {
         {this.state.loginScreen}
         <div>{this.state.loginMessage}</div>
         <div>
-          <button onClick={this.onClickGoRegister}>
+          <Button size="mini" onClick={this.onClickGoRegister}>
             {this.state.buttonLabel}
-          </button>
+          </Button>
         </div>
       </div>
     );

@@ -14,6 +14,7 @@ import {
   LoadStockChart
 } from "../api/iex";
 import { LoadForecastData, herokuBackend } from "../api/herokuBackend";
+import { Button } from "semantic-ui-react";
 
 class Dashboard extends React.Component {
   state = {
@@ -96,7 +97,7 @@ class Dashboard extends React.Component {
     if (res.status === 200) {
       this.props.parentProps.setState({ isLoggedIn: false });
     }
-    console.log(res.data);
+    return res.data;
   };
 
   openModal = () => {
@@ -124,7 +125,10 @@ class Dashboard extends React.Component {
       modalOpen
     } = this.state;
     const condensedNews = [...news].slice(0, 3);
-    const condensedForecast = [...forecast].slice(0, 2);
+    const fullForecast = forecast.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    const condensedForecast = [...fullForecast].slice(0, 2);
 
     return (
       <BrowserRouter>
@@ -145,12 +149,14 @@ class Dashboard extends React.Component {
                 onChange={this.onChangeEnteredSymbol}
                 onKeyDown={this.onEnterKey}
               />
-              <button onClick={this.loadQuote}>Find Quote</button>
+              <Button size="mini" onClick={this.loadQuote}>
+                Find Quote
+              </Button>
             </span>
             <span>
-              <button onClick={event => this.onClickLogOut(event)}>
+              <Button size="mini" onClick={event => this.onClickLogOut(event)}>
                 Log Out
-              </button>
+              </Button>
             </span>
           </div>
           <div>
@@ -178,11 +184,12 @@ class Dashboard extends React.Component {
           <div className="forecast-wrap">
             {!!forecast && !!showAllForecast ? (
               <StockForecastList
-                forecastData={forecast}
+                forecastData={fullForecast}
                 enteredSymbol={quote.symbol}
                 modalOpen={modalOpen}
                 openModal={this.openModal}
                 closeModal={this.closeModal}
+                latestPrice={quote.latestPrice}
               />
             ) : (
               <StockForecastList
@@ -191,11 +198,12 @@ class Dashboard extends React.Component {
                 modalOpen={modalOpen}
                 openModal={this.openModal}
                 closeModal={this.closeModal}
+                latestPrice={quote.latestPrice}
               />
             )}
-            <button onClick={this.onShowAllForecast}>
+            <Button size="mini" onClick={this.onShowAllForecast}>
               {showAllForecast ? "Show less forecast" : "Show more forecast"}
-            </button>
+            </Button>
           </div>
           {chart ? (
             <div>
@@ -213,9 +221,9 @@ class Dashboard extends React.Component {
             ) : (
               <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
             )}
-            <button onClick={this.onShowAllNews}>
+            <Button size="mini" onClick={this.onShowAllNews}>
               {showAllNews ? "Show less news" : "Show more news"}
-            </button>
+            </Button>
           </div>
         </div>
       </BrowserRouter>

@@ -59,7 +59,9 @@ class ForecastModal extends React.Component {
     return (
       <Modal
         trigger={
-          <Button onClick={this.props.openModal}>Add new forecast</Button>
+          <Button size="mini" onClick={this.props.openModal}>
+            Add new forecast
+          </Button>
         }
         open={this.props.modalOpen}
         onClose={this.props.closeModal}

@@ -1,6 +1,7 @@
 import React from "react";
 import { herokuBackend } from "../api/herokuBackend";
 import Login from "./Login";
+import { Button } from "semantic-ui-react";
 
 class Register extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class Register extends React.Component {
     };
     const res = await herokuBackend.post("/users/register", payload);
     if (res.data.code === 400) {
-      alert()
+      alert();
     }
     if (res.data.code === 200) {
       let loginScreen = [];
@@ -119,7 +120,9 @@ class Register extends React.Component {
             />
           </span>
           <br />
-          <button onClick={event => this.RegisterUser(event)}>Register</button>
+          <Button size="mini" onClick={event => this.RegisterUser(event)}>
+            Register
+          </Button>
         </div>
       </div>
     );
