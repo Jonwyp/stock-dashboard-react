@@ -10,7 +10,10 @@ const StockForecast = ({
   rationale,
   createdAt
 }) => {
-  const percentageFromTargetPrice = (latestPrice - targetPrice) / targetPrice;
+  const percentageFromTargetPrice =
+    position === "short"
+      ? targetPrice - latestPrice / targetPrice
+      : (latestPrice - targetPrice) / targetPrice;
   return (
     <div className="stockForecast" data-testid="stockForecast">
       <h3>{title}</h3>
