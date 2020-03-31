@@ -1,4 +1,5 @@
 import React from "react";
+import { herokuBackend } from "../api/herokuBackend";
 import { Modal, Button, Header, Form, ModalContent } from "semantic-ui-react";
 
 class ForecastModal extends React.Component {
@@ -13,6 +14,16 @@ class ForecastModal extends React.Component {
       rationale: ""
     };
   }
+
+  submitForecast = async () => {
+    let payload = this.state;
+    const res = await herokuBackend.post(
+      `/stocks/${this.state.quote}/forecast`,
+      payload
+    );
+    this.props.closeModal();
+    return res.data;
+  };
 
   changeTitle = (event, { value }) => {
     const state = this.state;
@@ -45,8 +56,6 @@ class ForecastModal extends React.Component {
   };
 
   render() {
-    const { value } = this.state;
-
     return (
       <Modal
         trigger={
@@ -58,9 +67,10 @@ class ForecastModal extends React.Component {
       >
         <Header icon="pencil" content="Add new forecast" />
         <ModalContent>
-          <Form>
+          <Form onSubmit={this.submitForecast}>
             <Form.Input
               fluid
+              required
               label="Title"
               placeholder="Enter title here"
               onChange={this.changeTitle}
@@ -71,60 +81,66 @@ class ForecastModal extends React.Component {
               disabled
               value={this.props.enteredSymbol}
             />
-            <Form.Group inline>
+            <Form.Group required inline>
               <label>Position</label>
               <Form.Radio
                 label="Long"
                 value="long"
-                checked={value === "long"}
+                checked={this.state.position === "long"}
                 onChange={this.changePosition}
               />
               <Form.Radio
                 label="Neutral"
                 value="neutral"
-                checked={value === "neutral"}
+                checked={this.state.position === "neutral"}
                 onChange={this.changePosition}
               />
               <Form.Radio
                 label="Short"
                 value="short"
-                checked={value === "short"}
+                checked={this.state.position === "short"}
                 onChange={this.changePosition}
               />
             </Form.Group>
-            <Form.Group inline>
+            <Form.Group required inline>
               <label>Timeframe</label>
               <Form.Radio
                 label="3 months"
                 value="3 months"
-                checked={value === "3 months"}
+                checked={this.state.timeFrame === "3 months"}
                 onChange={this.changeTimeFrame}
               />
               <Form.Radio
                 label="6 months"
                 value="6 months"
-                checked={value === "6 months"}
+                checked={this.state.timeFrame === "6 months"}
                 onChange={this.changeTimeFrame}
               />
               <Form.Radio
                 label="1 year"
                 value="1 year"
-                checked={value === "1 year"}
+                checked={this.state.timeFrame === "1 year"}
                 onChange={this.changeTimeFrame}
               />
             </Form.Group>
             <Form.Input
               fluid
+              required
               label="Target Price"
               placeholder="Enter target price here"
               onChange={this.changeTargetPrice}
             />
             <Form.TextArea
               label="Rationale"
+              required
               placeholder="Enter rationale here"
               onChange={this.changeRationale}
             />
-            <Form.Field control={Button}>Submit</Form.Field>
+            <Form.Button content="Submit" />
+            <Form.Button
+              onClick={this.props.closeModal}
+              content="Close Window"
+            />
           </Form>
         </ModalContent>
       </Modal>

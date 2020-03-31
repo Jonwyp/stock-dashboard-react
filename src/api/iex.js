@@ -13,22 +13,22 @@ const sTokenCode = process.env.REACT_APP_STOKEN;
 const pTokenCode = process.env.REACT_APP_PTOKEN;
 
 export const LoadStockQuote = symbol => {
-  return proApi
-    .get(`/stock/${symbol}/quote?token=${pTokenCode}`)
+  return testApi
+    .get(`/stock/${symbol}/quote?token=${sTokenCode}`)
     .then(result => result.data);
 };
 
 export const LoadStockInfo = async symbol => {
   await timeout(1000);
-  return await proApi
-    .get(`/stock/${symbol}/company?token=${pTokenCode}`)
+  return await testApi
+    .get(`/stock/${symbol}/company?token=${sTokenCode}`)
     .then(result => result.data);
 };
 
 export const LoadStockNews = async symbol => {
   await timeout(1000);
-  return await proApi
-    .get(`/stock/${symbol}/news/last/5?token=${pTokenCode}`)
+  return await testApi
+    .get(`/stock/${symbol}/news/last/5?token=${sTokenCode}`)
     .then(result => result.data);
 };
 

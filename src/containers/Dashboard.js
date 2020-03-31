@@ -105,6 +105,12 @@ class Dashboard extends React.Component {
     this.setState({ newState });
   };
 
+  closeModal = () => {
+    const newState = this.state;
+    newState.modalOpen = false;
+    this.setState({ newState });
+  };
+
   render() {
     const {
       quote,
@@ -121,99 +127,98 @@ class Dashboard extends React.Component {
     const condensedForecast = [...forecast].slice(0, 2);
 
     return (
-        <BrowserRouter>
-          <div className="dashboard">
-            <div className="header">
-              <img
-                className="header-companylogo"
-                src={`${process.env.PUBLIC_URL}/stockuote.png`}
-                alt="Company logo"
+      <BrowserRouter>
+        <div className="dashboard">
+          <div className="header">
+            <img
+              className="header-companylogo"
+              src={`${process.env.PUBLIC_URL}/stockuote.png`}
+              alt="Company logo"
+            />
+            <span className="search">
+              <h1>U.S. Stocks Dashboard</h1>
+              <input
+                type="text"
+                maxLength="5"
+                placeholder="Search Stock Ticker Here..."
+                className="search-box"
+                onChange={this.onChangeEnteredSymbol}
+                onKeyDown={this.onEnterKey}
               />
-              <span className="search">
-                <h1>U.S. Stocks Dashboard</h1>
-                <input
-                  type="text"
-                  maxLength="5"
-                  placeholder="Search Stock Ticker Here..."
-                  className="search-box"
-                  onChange={this.onChangeEnteredSymbol}
-                  onKeyDown={this.onEnterKey}
-                />
-                <button onClick={this.loadQuote}>Find Quote</button>
-              </span>
-              <span>
-                <button onClick={event => this.onClickLogOut(event)}>
-                  Log Out
-                </button>
-              </span>
-            </div>
+              <button onClick={this.loadQuote}>Find Quote</button>
+            </span>
+            <span>
+              <button onClick={event => this.onClickLogOut(event)}>
+                Log Out
+              </button>
+            </span>
+          </div>
+          <div>
             <div>
-              <div>
-                {!!error && (
-                  <div className="alertbox">
-                    <h3 className="alertbox-header">Alert!</h3>
-                    <p>{error.message}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="stockmeta">
-              <span className="stockmeta-span">
-                {quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}
-              </span>
-              <span className="stockmeta-span">
-                {info ? (
-                  <StockDetailed {...info} />
-                ) : (
-                  <p>Loading Detailed Information</p>
-                )}
-              </span>
-            </div>
-            <div className="forecast-wrap">
-              {!!forecast && !!showAllForecast ? (
-                <StockForecastList
-                  forecastData={forecast}
-                  enteredSymbol={quote.symbol}
-                  modalOpen={modalOpen}
-                  openModal={this.openModal}
-                />
-              ) : (
-                <StockForecastList
-                  forecastData={condensedForecast}
-                  enteredSymbol={quote.symbol}
-                  modalOpen={modalOpen}
-                  openModal={this.openModal}
-                />
-              )}
-              <button onClick={this.onShowAllForecast}>
-                {showAllForecast ? "Show less forecast" : "Show more forecast"}
-              </button>
-            </div>
-            {chart ? (
-              <div>
-                <StockGraph chartData={chart} enteredSymbol={quote.symbol} />
-                <div style={{ margin: "30px 0 30px 0" }}>
-                  <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+              {!!error && (
+                <div className="alertbox">
+                  <h3 className="alertbox-header">Alert!</h3>
+                  <p>{error.message}</p>
                 </div>
-              </div>
-            ) : (
-              <p>Loading Chart...</p>
-            )}
-            <div className="newlist-wrap">
-              {!!news && !!showAllNews ? (
-                <NewsList newsData={news} enteredSymbol={quote.symbol} />
-              ) : (
-                <NewsList
-                  newsData={condensedNews}
-                  enteredSymbol={quote.symbol}
-                />
               )}
-              <button onClick={this.onShowAllNews}>
-                {showAllNews ? "Show less news" : "Show more news"}
-              </button>
             </div>
           </div>
-        </BrowserRouter>
+          <div className="stockmeta">
+            <span className="stockmeta-span">
+              {quote ? <StockInfo {...quote} /> : <p>Loading Stock...</p>}
+            </span>
+            <span className="stockmeta-span">
+              {info ? (
+                <StockDetailed {...info} />
+              ) : (
+                <p>Loading Detailed Information</p>
+              )}
+            </span>
+          </div>
+          <div className="forecast-wrap">
+            {!!forecast && !!showAllForecast ? (
+              <StockForecastList
+                forecastData={forecast}
+                enteredSymbol={quote.symbol}
+                modalOpen={modalOpen}
+                openModal={this.openModal}
+                closeModal={this.closeModal}
+              />
+            ) : (
+              <StockForecastList
+                forecastData={condensedForecast}
+                enteredSymbol={quote.symbol}
+                modalOpen={modalOpen}
+                openModal={this.openModal}
+                closeModal={this.closeModal}
+              />
+            )}
+            <button onClick={this.onShowAllForecast}>
+              {showAllForecast ? "Show less forecast" : "Show more forecast"}
+            </button>
+          </div>
+          {chart ? (
+            <div>
+              <StockGraph chartData={chart} enteredSymbol={quote.symbol} />
+              <div style={{ margin: "30px 0 30px 0" }}>
+                <a href="https://iexcloud.io">Data provided by IEX Cloud</a>
+              </div>
+            </div>
+          ) : (
+            <p>Loading Chart...</p>
+          )}
+          <div className="newlist-wrap">
+            {!!news && !!showAllNews ? (
+              <NewsList newsData={news} enteredSymbol={quote.symbol} />
+            ) : (
+              <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
+            )}
+            <button onClick={this.onShowAllNews}>
+              {showAllNews ? "Show less news" : "Show more news"}
+            </button>
+          </div>
+        </div>
+      </BrowserRouter>
     );
   }
 }

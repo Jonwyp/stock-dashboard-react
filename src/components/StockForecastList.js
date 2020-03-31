@@ -16,6 +16,7 @@ class StockForecastList extends React.Component {
         </h2>
         <ForecastModal
           openModal={this.props.openModal}
+          closeModal={this.props.closeModal}
           modalOpen={this.props.modalOpen}
           enteredSymbol={this.props.enteredSymbol}
         />
