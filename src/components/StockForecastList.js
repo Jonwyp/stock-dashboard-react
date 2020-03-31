@@ -26,7 +26,7 @@ class StockForecastList extends React.Component {
               <hr />
               <StockForecast
                 {...forecast}
-                latestPrice={this.props.quote.latestPrice}
+                latestPrice={this.props.latestPrice}
               />
             </div>
           );
