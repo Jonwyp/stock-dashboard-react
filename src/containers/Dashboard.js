@@ -61,7 +61,6 @@ class Dashboard extends React.Component {
             `An error occurred while processing your request...`
           );
           this.setState({ error: error });
-          alert(error.message);
         }
       });
   };
@@ -201,7 +200,11 @@ class Dashboard extends React.Component {
                 latestPrice={quote.latestPrice}
               />
             )}
-            <Button size="mini" onClick={this.onShowAllForecast}>
+            <Button
+              aria-label="show forecast button"
+              size="mini"
+              onClick={this.onShowAllForecast}
+            >
               {showAllForecast ? "Show less forecast" : "Show more forecast"}
             </Button>
           </div>
@@ -221,7 +224,11 @@ class Dashboard extends React.Component {
             ) : (
               <NewsList newsData={condensedNews} enteredSymbol={quote.symbol} />
             )}
-            <Button size="mini" onClick={this.onShowAllNews}>
+            <Button
+              aria-label="show news button"
+              size="mini"
+              onClick={this.onShowAllNews}
+            >
               {showAllNews ? "Show less news" : "Show more news"}
             </Button>
           </div>

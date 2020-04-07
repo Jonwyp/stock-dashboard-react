@@ -12,3 +12,4 @@ export const LoadForecastData = async symbol => {
   const result = await herokuBackend.get(`/stocks/${symbol}/forecast`);
   return result.data;
 };
+

@@ -27,7 +27,7 @@ class LoginScreen extends React.Component {
     if (this.state.isLogin) {
       let loginMessage = "";
       let loginScreen = [];
-      loginScreen.push(<Register parentProps={this} />);
+      loginScreen.push(<Register key="register" parentProps={this} />);
       loginMessage = "Already registered? Proceed to login!";
       this.setState({
         loginScreen: loginScreen,
@@ -64,7 +64,11 @@ class LoginScreen extends React.Component {
         {this.state.loginScreen}
         <div>{this.state.loginMessage}</div>
         <div>
-          <Button size="mini" onClick={this.onClickGoRegister}>
+          <Button
+            aria-label="register toggle"
+            size="mini"
+            onClick={this.onClickGoRegister}
+          >
             {this.state.buttonLabel}
           </Button>
         </div>

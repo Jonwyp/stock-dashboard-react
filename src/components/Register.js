@@ -120,7 +120,7 @@ class Register extends React.Component {
             />
           </span>
           <br />
-          <Button size="mini" onClick={event => this.RegisterUser(event)}>
+          <Button aria-label="register button" size="mini" onClick={event => this.RegisterUser(event)}>
             Register
           </Button>
         </div>

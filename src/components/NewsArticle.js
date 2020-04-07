@@ -10,7 +10,7 @@ const NewsArticle = ({
   return (
     <div>
       <a href={url} target="_blank" rel="noopener noreferrer">
-        <h3>{headline}</h3>
+        <h3 aria-label="news headline">{headline}</h3>
       </a>
       <div>
         Source: <em>{source}</em>,{" "}

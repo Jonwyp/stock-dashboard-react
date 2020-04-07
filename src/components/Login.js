@@ -57,7 +57,11 @@ class Login extends React.Component {
             />
           </span>
           <br />
-          <Button size="mini" onClick={event => this.PostLogin(event)}>
+          <Button
+            aria-label="login button"
+            size="mini"
+            onClick={event => this.PostLogin(event)}
+          >
             Login
           </Button>
         </div>

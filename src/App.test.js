@@ -1,39 +1,63 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import App from "./containers/Dashboard";
+import { render, wait, fireEvent } from "@testing-library/react";
+import App from "./App";
+import { herokuBackend } from "./api/herokuBackend";
+import MockAdapter from "axios-mock-adapter";
+const mockAxios = new MockAdapter(herokuBackend);
 
 describe("App", () => {
-  it("should render candlestick chart when candlestick chart link is clicked", () => {
-    const { getByText, getByTestId } = render(<App />);
-
-    const candlestickLink = getByText("Candlestick Graph");
-    fireEvent.click(candlestickLink);
-
-    const candleStickChart = getByTestId("candleStickChart");
-    expect(candleStickChart).toBeInTheDocument();
+  mockAxios.onGet("/stocks/AAPL").reply(401);
+  it("should show loading gif on initialization", () => {
+    const { getByAltText } = render(<App />);
+    const loadingSpinner = getByAltText("loadingSpinner");
+    expect(loadingSpinner).toBeInTheDocument();
   });
 
-  it("should render line chart when line chart link is clicked", () => {
-    const { getByText, getByTestId } = render(<App />);
+  it("should display dashboard login after page loads", async () => {
+    const { getByText, getByPlaceholderText, getByLabelText } = render(<App />);
+    await wait(() => {
+      expect(getByText("Dashboard Login")).toBeInTheDocument();
+    });
+    const usernameInput = getByPlaceholderText("username");
+    const passwordInput = getByPlaceholderText("password");
+    const loginButton = getByLabelText("login button");
 
-    const lineChartLink = getByText("Line Graph");
-    fireEvent.click(lineChartLink);
-
-    const lineChart = getByTestId("lineChart");
-    expect(lineChart).toBeInTheDocument();
+    expect(usernameInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
+    expect(loginButton).toBeInTheDocument();
   });
 
-  it("should render login page on intialisation", () => {
-    const { getByPlaceholderText } = render(<App />);
+  it("should login with the right info and display dashboard", async () => {
+    const { getByText, getByPlaceholderText, getByLabelText } = render(<App />);
+    await wait(() => {
+      expect(getByText("Dashboard Login")).toBeInTheDocument();
+    });
+    const usernameInput = getByPlaceholderText("username");
+    const passwordInput = getByPlaceholderText("password");
+    fireEvent.change(usernameInput, { target: { value: "stockguru" } });
+    fireEvent.change(passwordInput, { target: { value: "123456789" } });
+    mockAxios.onPost("/users/login").reply(200);
 
-    const searchBox = getByPlaceholderText("Search Stock Ticker Here...");
-    expect(searchBox).toBeInTheDocument();
+    const loginButton = getByLabelText("login button");
+    fireEvent.click(loginButton);
+    await wait(() => {
+      expect(
+        getByPlaceholderText("Search Stock Ticker Here...")
+      ).toBeInTheDocument();
+    });
   });
 
-  it("should render findquote button on intialisation", () => {
-    const { getByText } = render(<App />);
+  it("should render registration screen after register button clicked", async () => {
+    const { getByText, getByLabelText } = render(<App />);
+    await wait(() => {
+      expect(getByText("Dashboard Login")).toBeInTheDocument();
+    });
+    const registerToggle = getByLabelText("register toggle");
+    fireEvent.click(registerToggle);
 
-    const findQuoteButton = getByText("Find Quote");
-    expect(findQuoteButton).toBeInTheDocument();
+    const registerPage = getByText("New User Registration");
+    const registerButton = getByLabelText("register button");
+    expect(registerPage).toBeInTheDocument();
+    expect(registerButton).toBeInTheDocument();
   });
 });
