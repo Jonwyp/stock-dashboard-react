@@ -1,14 +1,60 @@
 import React from "react";
+import { herokuBackend } from "../api/herokuBackend";
+import { Button, Label, Icon } from "semantic-ui-react";
 
 class StockForecast extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { likeCounter: 0, dislikeCounter: 0 };
+    this.state = {
+      likeCounter: 0,
+      dislikeCounter: 0
+    };
   }
+
+  componentDidMount() {
+    this.getLikesDislikes();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.forecast.id !== prevProps.forecast.id) {
+      this.getLikesDislikes();
+    }
+  }
+
+  getLikesDislikes = async () => {
+    const res = await herokuBackend.get(`/counters/${this.props.forecast.id}`);
+    let { likeCounter, dislikeCounter } = res.data;
+    if (likeCounter === undefined || likeCounter === null) {
+      likeCounter = 0;
+    }
+    if (dislikeCounter === undefined || dislikeCounter === null) {
+      dislikeCounter = 0;
+    }
+    this.setState({ likeCounter, dislikeCounter });
+  };
+
+  addLikes = async id => {
+    let likeCounter = this.state.likeCounter;
+    likeCounter += 1;
+    this.setState({ likeCounter: likeCounter });
+    const payload = { forecastId: id, ...this.state };
+    const res = await herokuBackend.patch(`/counters/${id}`, payload);
+    return res.data;
+  };
+
+  addDislikes = async id => {
+    let dislikeCounter = this.state.dislikeCounter;
+    dislikeCounter += 1;
+    this.setState({ dislikeCounter: dislikeCounter });
+    const payload = { forecastId: id, ...this.state };
+    const res = await herokuBackend.patch(`/counters/${id}`, payload);
+    return res.data;
+  };
 
   render() {
     const {
       username,
+      id,
       position,
       targetPrice,
       timeFrame,
@@ -45,7 +91,40 @@ class StockForecast extends React.Component {
             month: "2-digit",
             day: "2-digit"
           }).format(new Date(createdAt))}
-          <span></span>
+        </div>
+        <div>
+          <Button.Group floated="right">
+            <Button
+              size="mini"
+              as="div"
+              labelPosition="right"
+              onClick={() => this.addLikes(id)}
+            >
+              <Button icon>
+                <Icon name="thumbs up" />
+                Agree
+              </Button>
+              <Label size="mini" basic pointing="left">
+                {this.state.likeCounter}
+              </Label>
+            </Button>
+            <Button
+              size="mini"
+              as="div"
+              labelPosition="right"
+              onClick={() => this.addDislikes(id)}
+            >
+              <Button icon>
+                <Icon name="thumbs down" />
+                Disagree
+              </Button>
+              <Label size="mini" basic pointing="left">
+                {this.state.dislikeCounter}
+              </Label>
+            </Button>
+          </Button.Group>
+          <br />
+          <br />
         </div>
       </div>
     );
