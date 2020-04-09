@@ -1,5 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
+import { shallow } from "enzyme";
 import Dashboard from "./Dashboard";
 import { herokuBackend } from "../api/herokuBackend";
 import MockAdapter from "axios-mock-adapter";
@@ -36,6 +37,16 @@ describe("Dashboard", () => {
     expect(searchBox).toBeInTheDocument();
   });
 
+  it("should change entered symbol state when input on search bar is typed", () => {
+    const render = shallow(<Dashboard />);
+
+    const searchBox = render.find({
+      placeholder: "Search Stock Ticker Here..."
+    });
+    searchBox.simulate("change", { target: { value: "TWTR" } });
+    expect(render.state().enteredSymbol).toEqual("TWTR");
+  });
+
   it("should render findquote button on intialisation", () => {
     const { getByText } = render(<Dashboard />);
 
@@ -67,5 +78,13 @@ describe("Dashboard", () => {
     const { getByLabelText } = render(<Dashboard />);
     const showNewsButton = getByLabelText("show news button");
     expect(showNewsButton).toBeInTheDocument();
+  });
+
+  it("should render add forecast modal when add new forecast button is clicked", async () => {
+    const { getByLabelText, getByPlaceholderText } = render(<Dashboard />);
+    const addForecastButton = getByLabelText("forecast modal button");
+    expect(addForecastButton).toBeInTheDocument();
+    fireEvent.click(addForecastButton);
+    expect(getByPlaceholderText("Enter title here")).toBeInTheDocument();
   });
 });
