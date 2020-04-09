@@ -45,28 +45,35 @@ class Register extends React.Component {
   };
 
   RegisterUser = async () => {
-    let payload = {
-      username: this.state.username,
-      password: this.state.password,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email
-    };
-    const res = await herokuBackend.post("/users/register", payload);
-    if (res.data.code === 400) {
-      alert();
-    }
-    if (res.data.code === 200) {
-      let loginScreen = [];
-      loginScreen.push(<Login parentProps={this} />);
-      let loginMessage = "Not Registered yet. Go to registration";
-      this.props.parentContext.setState({
-        loginScreen: loginScreen,
-        loginMessage: loginMessage,
-        buttonLabel: "Register",
-        isLogin: true
-      });
-      return res.data;
+    try {
+      let payload = {
+        username: this.state.username,
+        password: this.state.password,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email
+      };
+      const res = await herokuBackend.post("/users/register", payload);
+      if (res.data.code === 200) {
+        let loginScreen = [];
+        loginScreen.push(<Login parentProps={this} />);
+        let loginMessage = "Not Registered yet. Go to registration";
+        this.props.parentContext.setState({
+          loginScreen: loginScreen,
+          loginMessage: loginMessage,
+          buttonLabel: "Register",
+          isLogin: true
+        });
+        return res.data;
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        alert("Registration failed. Please fill in all required fields.");
+      }
+
+      if (error.response.status === 422) {
+        alert("Username already taken. Please try again.");
+      }
     }
   };
 
@@ -120,7 +127,11 @@ class Register extends React.Component {
             />
           </span>
           <br />
-          <Button aria-label="register button" size="mini" onClick={event => this.RegisterUser(event)}>
+          <Button
+            aria-label="register button"
+            size="mini"
+            onClick={event => this.RegisterUser(event)}
+          >
             Register
           </Button>
         </div>

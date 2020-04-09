@@ -25,7 +25,7 @@ class ForecastModal extends React.Component {
     return res.data;
   };
 
-  changeTitle = (event, { value }) => {
+  changeTitle = value => {
     const state = this.state;
     state.title = value;
     this.setState(state);
@@ -43,13 +43,13 @@ class ForecastModal extends React.Component {
     this.setState(state);
   };
 
-  changeTargetPrice = (event, { value }) => {
+  changeTargetPrice = value => {
     const state = this.state;
     state.targetPrice = value;
     this.setState(state);
   };
 
-  changeRationale = (event, { value }) => {
+  changeRationale = value => {
     const state = this.state;
     state.rationale = value;
     this.setState(state);
@@ -59,7 +59,11 @@ class ForecastModal extends React.Component {
     return (
       <Modal
         trigger={
-          <Button size="mini" onClick={this.props.openModal}>
+          <Button
+            aria-label="forecast modal button"
+            size="mini"
+            onClick={this.props.openModal}
+          >
             Add new forecast
           </Button>
         }
@@ -75,7 +79,7 @@ class ForecastModal extends React.Component {
               required
               label="Title"
               placeholder="Enter title here"
-              onChange={this.changeTitle}
+              onChange={event => this.changeTitle(event.target.value)}
             />
             <Form.Input
               fluid
@@ -89,19 +93,19 @@ class ForecastModal extends React.Component {
                 label="Long"
                 value="long"
                 checked={this.state.position === "long"}
-                onChange={this.changePosition}
+                onClick={this.changePosition}
               />
               <Form.Radio
                 label="Neutral"
                 value="neutral"
                 checked={this.state.position === "neutral"}
-                onChange={this.changePosition}
+                onClick={this.changePosition}
               />
               <Form.Radio
                 label="Short"
                 value="short"
                 checked={this.state.position === "short"}
-                onChange={this.changePosition}
+                onClick={this.changePosition}
               />
             </Form.Group>
             <Form.Group required inline>
@@ -110,19 +114,19 @@ class ForecastModal extends React.Component {
                 label="3 months"
                 value="3 months"
                 checked={this.state.timeFrame === "3 months"}
-                onChange={this.changeTimeFrame}
+                onClick={this.changeTimeFrame}
               />
               <Form.Radio
                 label="6 months"
                 value="6 months"
                 checked={this.state.timeFrame === "6 months"}
-                onChange={this.changeTimeFrame}
+                onClick={this.changeTimeFrame}
               />
               <Form.Radio
                 label="1 year"
                 value="1 year"
                 checked={this.state.timeFrame === "1 year"}
-                onChange={this.changeTimeFrame}
+                onClick={this.changeTimeFrame}
               />
             </Form.Group>
             <Form.Input
@@ -130,13 +134,13 @@ class ForecastModal extends React.Component {
               required
               label="Target Price"
               placeholder="Enter target price here"
-              onChange={this.changeTargetPrice}
+              onChange={event => this.changeTargetPrice(event.target.value)}
             />
             <Form.TextArea
               label="Rationale"
               required
               placeholder="Enter rationale here"
-              onChange={this.changeRationale}
+              onChange={event => this.changeRationale(event.target.value)}
             />
             <Form.Button content="Submit" />
             <Form.Button

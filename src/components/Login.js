@@ -23,15 +23,25 @@ class Login extends React.Component {
   };
 
   PostLogin = async () => {
-    let payload = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    const res = await herokuBackend.post("/users/login", payload);
-    if (res.status === 200) {
-      this.props.appProps.setState({ isLoggedIn: true });
+    try {
+      let payload = {
+        username: this.state.username,
+        password: this.state.password
+      };
+      const res = await herokuBackend.post("/users/login", payload);
+      console.log(res.status);
+      if (res.status === 200) {
+        this.props.appProps.setState({ isLoggedIn: true });
+      }
+      return res.data;
+    } catch (error) {
+      if (error.response.status === 500) {
+        alert("User not registered. Please proceed to registration");
+      }
+      if (error.response.status === 401) {
+        alert("Login failed. Username and/or password is incorrect.");
+      }
     }
-    return res.data;
   };
 
   render() {

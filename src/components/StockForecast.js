@@ -95,6 +95,7 @@ class StockForecast extends React.Component {
         <div>
           <Button.Group floated="right">
             <Button
+              aria-label="agree button"
               size="mini"
               as="div"
               labelPosition="right"
@@ -109,6 +110,7 @@ class StockForecast extends React.Component {
               </Label>
             </Button>
             <Button
+              aria-label="disagree button"
               size="mini"
               as="div"
               labelPosition="right"
