@@ -1,5 +1,6 @@
 import React from "react";
 import { render, wait, fireEvent } from "@testing-library/react";
+import { shallow } from "enzyme";
 import App from "./App";
 import { herokuBackend } from "./api/herokuBackend";
 import MockAdapter from "axios-mock-adapter";
@@ -59,5 +60,13 @@ describe("App", () => {
     const registerButton = getByLabelText("register button");
     expect(registerPage).toBeInTheDocument();
     expect(registerButton).toBeInTheDocument();
+  });
+
+  it("should render dashboard instead of login if cookie is available", async () => {
+    const render = shallow(<App />);
+    expect(render.state().isLoggedIn).toEqual(false);
+    mockAxios.onGet("/stocks/AAPL").reply(200);
+    await wait(() => expect(render.state().isLoggedIn).toEqual(true));
+    await wait(() => expect(render.state().isLoading).toEqual(false));
   });
 });
