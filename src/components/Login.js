@@ -29,7 +29,6 @@ class Login extends React.Component {
         password: this.state.password
       };
       const res = await herokuBackend.post("/users/login", payload);
-      console.log(res.status);
       if (res.status === 200) {
         this.props.appProps.setState({ isLoggedIn: true });
       }
